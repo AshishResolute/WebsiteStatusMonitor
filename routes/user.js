@@ -2,6 +2,7 @@ import express from 'express';
 import verifyToken from './verifyToken.js';
 import { AppError } from './ErrorClasses.js';
 import db from './db.js';
+import checkStatus from './axiosMethod.js';
 const router = express.Router();
 
 router.post('/add-url',verifyToken,async(req,res,next)=>{
@@ -22,10 +23,13 @@ router.post('/add-url',verifyToken,async(req,res,next)=>{
 router.get('/geturls',verifyToken,async(req,res,next)=>{
     try{
         let user_id = req.user.id;
-        console.log(user_id)
         let [urls] = await db.query(`select url from userurls where user_id=?`,[user_id]);
          if(!urls.length) return next(new AppError(`No Urls found add urls first`,404))
         res.status(200).json(urls)
+        urls.forEach(async(data)=>{
+            await checkStatus(data.url,user_id)
+            // console.log(user_id)
+        })
     }
     catch(err)
     {

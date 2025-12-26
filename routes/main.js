@@ -1,6 +1,6 @@
 import express from 'express'
 import cron from 'node-cron'
-import checkStatus from './axiosMethod.js'
+// import checkStatus from './axiosMethod.js'
 import dotenv from 'dotenv';
 import auth from './auth.js';
 import user from './user.js';
