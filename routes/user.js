@@ -26,10 +26,6 @@ router.get('/geturls',verifyToken,async(req,res,next)=>{
         let [urls] = await db.query(`select url from userurls where user_id=?`,[user_id]);
          if(!urls.length) return next(new AppError(`No Urls found add urls first`,404))
         res.status(200).json(urls)
-        urls.forEach(async(data)=>{
-            await checkStatus(data.url,user_id)
-            // console.log(user_id)
-        })
     }
     catch(err)
     {

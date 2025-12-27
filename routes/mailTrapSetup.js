@@ -1,20 +1,21 @@
-import nodemailer from 'nodemailer'
-import dotenv from 'dotenv'
-// dotenv.config()
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+dotenv.config();
 
 
-var transport = nodemailer.createTransport({
-  host: "sandbox.smtp.mailtrap.io",
-  port: 2525,
+let transport = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
   auth: {
-    user: "58124207766ea7",
-    pass: "ca26ba71144564"
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS
   }
 });
 
-transport.verify((err,info)=>{
-    if(err) console.log(`MailTrap SMTP not connected`)
-        else console.log(`MailTrap SMTP server connected`);
+console.log(true)
+transport.verify((err, info) => {
+  if (err) console.log(`MailTrap SMTP not connected`)
+  else console.log(`MailTrap SMTP server connected`);
 })
 
 export default transport;

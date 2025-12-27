@@ -5,6 +5,7 @@ import { AppError } from './ErrorClasses.js';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import verifyToken from './verifyToken.js';
 dotenv.config()
 router.post('/user/sign-up', async (req, res, next) => {
     try {
@@ -42,4 +43,37 @@ router.post('/user/login', async (req, res, next) => {
     }
 })
 
+router.patch('/user/updatePassword',verifyToken,async(req,res,next)=>{
+    try{
+        let user_id= req.user.id;
+        let {password,newPassword} = req.body;
+        let [checkPassword] = await db.query(`select password from users where id=?`,[user_id])
+        let check = await bcrypt.compare(password,checkPassword[0].password)
+        if(!check) return next(new AppError(`Passwords Dont Match,Try Again`));
+        let hashedPasword = await bcrypt.hash(newPassword,10);
+        await db.query(`update  users set password=? where id=?`,[hashedPasword,user_id])
+        res.status(200).json({Message:`Password changed Successfully`})
+     }
+     catch(err)
+     {
+        next(err)
+     }
+})
+
+
+router.patch('/addEmail',verifyToken,async(req,res,next)=>{
+    try{
+        let user_id=req.user.id;
+        let {email,password} = req.body;
+        let [findUser] = await db.query(`select password from users where id=?`,[user_id]);
+       let check = await bcrypt.compare(password,findUser[0].password)
+       if(!check) return next(new AppError('Passwords Dont Match,Try Again',400))
+        await db.query(`update users set email=? where id=?`,[email,user_id])
+       res.status(200).json({Message:`Email was added successfully`})
+    }
+    catch(err)
+    {
+        next(err)
+    }
+})
 export default router;
