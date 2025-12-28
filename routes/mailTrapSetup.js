@@ -12,7 +12,6 @@ let transport = nodemailer.createTransport({
   }
 });
 
-console.log(true)
 transport.verify((err, info) => {
   if (err) console.log(`MailTrap SMTP not connected`)
   else console.log(`MailTrap SMTP server connected`);

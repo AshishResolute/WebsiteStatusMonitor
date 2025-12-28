@@ -32,4 +32,19 @@ router.get('/geturls',verifyToken,async(req,res,next)=>{
         next(err)
     }
 })
+
+
+router.delete('/deleteUrl',verifyToken,async(req,res,next)=>{
+    try{
+        let user_id = req.user.id;
+        let {url} = req.body;
+      let [deleteUrl] =  await db.query(`delete from userurls where user_id=? and url=?`,[user_id,url]);
+      if(deleteUrl.affectedRows===0) return next(new AppError(`url ${url} not Deleted,check again if url Exists`,404));
+      res.status(200).json({Message:`Url ${url} deleted`})
+    }
+    catch(err)
+    {
+        next(err)
+    }
+})
 export default router;
