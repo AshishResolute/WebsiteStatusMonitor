@@ -6,7 +6,7 @@ import './nodeCron.js';
 dotenv.config()
 
 let app = express();
-const PORT = process.env.SERVER_PORT;
+const PORT = process.env.PORT;
   
 app.use(express.json());
 app.get('/health',(req,res,next)=>{
