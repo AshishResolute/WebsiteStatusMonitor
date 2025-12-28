@@ -10,9 +10,9 @@ router.post('/add-url',verifyToken,async(req,res,next)=>{
          let user_id = req.user.id;
          let {url} = req.body;
          if(!url) return next(new AppError(`Enter a valid Url,url cant be empty`));
-         let [checkUrlExists] = await db.query(`select url from userurls where user_id=? and url=?`,[user_id,url])
+         let [checkUrlExists] = await db.query(`select url from userurls where user_id=$1 and url=$2`,[user_id,url])
          if(checkUrlExists.length) return next(new AppError(`Url Already Exists`,400));
-         await db.query(`insert into userurls (user_id,url) value(?,?)`,[user_id,url]);
+         await db.query(`insert into userurls (user_id,url) values($1,$2)`,[user_id,url]);
          res.status(200).json({Message:`url ${url} added`});
     }
     catch(err)
@@ -25,7 +25,7 @@ router.post('/add-url',verifyToken,async(req,res,next)=>{
 router.get('/geturls',verifyToken,async(req,res,next)=>{
     try{
         let user_id = req.user.id;
-        let [urls] = await db.query(`select url from userurls where user_id=?`,[user_id]);
+        let [urls] = await db.query(`select url from userurls where user_id=$1`,[user_id]);
          if(!urls.length) return next(new AppError(`No Urls found add urls first`,404))
         res.status(200).json(urls)
     }
@@ -40,8 +40,8 @@ router.delete('/deleteUrl',verifyToken,async(req,res,next)=>{
     try{
         let user_id = req.user.id;
         let {url} = req.body;
-      let [deleteUrl] =  await db.query(`delete from userurls where user_id=? and url=?`,[user_id,url]);
-      if(deleteUrl.affectedRows===0) return next(new AppError(`url ${url} not Deleted,check again if url Exists`,404));
+      let [deleteUrl] =  await db.query(`delete from userurls where user_id=$1 and url=$2`,[user_id,url]);
+      if(deleteUrl.length===0) return next(new AppError(`url ${url} not Deleted,check again if url Exists`,404));
       res.status(200).json({Message:`Url ${url} deleted`})
     }
     catch(err)
