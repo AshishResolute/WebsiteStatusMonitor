@@ -10,6 +10,8 @@ router.post('/add-url',verifyToken,async(req,res,next)=>{
          let user_id = req.user.id;
          let {url} = req.body;
          if(!url) return next(new AppError(`Enter a valid Url,url cant be empty`));
+         let [checkUrlExists] = await db.query(`select url from userurls where user_id=? and url=?`,[user_id,url])
+         if(checkUrlExists.length) return next(new AppError(`Url Already Exists`,400));
          await db.query(`insert into userurls (user_id,url) value(?,?)`,[user_id,url]);
          res.status(200).json({Message:`url ${url} added`});
     }

@@ -9,15 +9,16 @@ import verifyToken from './verifyToken.js';
 dotenv.config()
 router.post('/user/sign-up', async (req, res, next) => {
     try {
-        let { name, password, confirmPassword } = req.body;
-        if (!name || !password || !confirmPassword) {
+        let { name,email, password, confirmPassword } = req.body;
+        if (!name || !password || !confirmPassword||!email) {
             return next(new AppError('Enter complete Details', 400))
         }
         if (password !== confirmPassword) {
             return next(new AppError('Passwords Dont match,Try again', 400))
         }
+        else if(password.length<8) return next(new AppError(`Password must be at least 8 characters long`,400))
         let hashedPasword = await bcrypt.hash(password, 10)
-        await db.query(`insert into users (name,password) value(?,?)`, [name, hashedPasword])
+        await db.query(`insert into users (name,password,email) value(?,?,?)`, [name, hashedPasword,email])
         res.status(200).json({ Message: `User ${name} added` })
     }
     catch (err) {

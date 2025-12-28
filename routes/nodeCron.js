@@ -2,9 +2,9 @@ import cron from 'node-cron'
 import db from './db.js';
 import checkStatus from './axiosMethod.js';
 console.log(`Working`)
-let nodecron = cron.schedule('*/30 * * * *', async() => {
+let nodecron = cron.schedule('*/59 * * * *', async() => {
     try{
-             console.log(`Search Started`)
+         console.log(`Search Started`)
       let   [userUrlData] = await db.query(`select user_id,url from userurls`)
       if(!userUrlData.length) return console.log(`No Urls To monitor`);
      await Promise.all(
@@ -24,3 +24,5 @@ let nodecron = cron.schedule('*/30 * * * *', async() => {
         scheduled: true,
         timezone: "Asia/Kolkata"
     }); 
+
+    // nodecron.start()
