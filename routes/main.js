@@ -21,7 +21,7 @@ app.get('/health', (req, res, next) => {
 
 app.use('/auth', auth);
 app.use('/user', user)
-app.use('statsLogs', statsLogs)
+app.use('/statsLogs', statsLogs)
 
 
 app.use((err, req, res, next) => {
