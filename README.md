@@ -1,37 +1,18 @@
 # Website Status Monitor
 
 ## Overview
-The Website Status Monitor is a project designed to keep track of the availability of websites. It actively checks the uptime of specified URLs and notifies users in case of any downtime, ensuring that websites are reliably accessible.
+Website Status Monitor is a project designed to monitor the availability and health of websites. This tool helps to track whether a website is up or down, ensuring that you are alerted about any downtime or performance issues.
 
 ## Features
-- **Real-time Monitoring**: Tracks the status of websites at regular intervals.
-- **Alerts**: Sends notifications via email or messaging platforms when a website is down.
-- **Dashboard**: Provides a user-friendly interface to view the status history and uptime statistics.
+- Checks website availability at regular intervals.
+- Monitors response times for health checks.
+- Sends alerts or notifications when a website is down or not performing optimally.
 
-## Installation
-To get started with the Website Status Monitor, follow the installation instructions below:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/AshishResolute/WebsiteStatusMonitor.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd WebsiteStatusMonitor
-   ```
-3. Install the required dependencies:
-   ```bash
-   npm install
-   ```
+## Exclusions
+- This version of the Website Status Monitor does not include any dashboard features for visual representation of website status. Instead, it focuses solely on backend monitoring capabilities.
 
 ## Usage
-Once installed, you can start the monitoring process by running:
-```bash
-node monitor.js
-```
+To utilize the Website Status Monitor, simply configure the target URLs and set up notification preferences. The system will handle the rest by continuously checking the specified websites.
 
-## Contribution
-Feel free to contribute to this project! Please open an issue or submit a pull request to discuss any improvements or new features that you would like to see.
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Conclusion
+This project is essential for web administrators and businesses that rely on web presence, providing peace of mind that their services remain accessible to users.
